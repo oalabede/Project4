@@ -1,4 +1,3 @@
-"""App configuration."""
 from os import environ, path
 
 import redis
@@ -11,7 +10,7 @@ load_dotenv(path.join(basedir, ".env"))
 class Config:
     """Set Flask configuration variables from .env file."""
 
-    FLASK_APP = 'wsgi.py'
+    FLASK_APP = environ.get('FLASK_APP')
     FLASK_ENV = environ.get("FLASK_ENV")
     SECRET_KEY = environ.get("SECRET_KEY")
 
@@ -27,6 +26,6 @@ class Config:
     TEMPLATES_FOLDER = "templates"
     COMPRESSOR_DEBUG = environ.get('COMPRESSOR_DEBUG')
 
-    SQLALCHEMY_DATABASE_URI = environ.get("SQLALCHEMY_DATABASE_URI")
+    SQLALCHEMY_DATABASE_URI = environ.get("SQLALCHEMY_DATABASE_URI:[DB_TYPE]+[DB_CONNECTOR]://USERNAME]:[PASSWORD]@[HOST]:[PORT]/[DB_NAME]")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_ECHO = False
+    SQLALCHEMY_ECHO = True
