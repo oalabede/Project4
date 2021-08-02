@@ -3,14 +3,15 @@ import profile
 
 from flask import Flask
 from flask_assets import Environment
-
 import home.routes
 from .assets import compile_assets
 from flask_sqlalchemy import SQLAlchemy
+from flask_redis import FlaskRedis
 from flask_login import LoginManager
 from pip._vendor.requests import Session
 
 db = SQLAlchemy()
+r = FlaskRedis
 login_manager = LoginManager()
 sess = Session()
 assets = Environment()
@@ -31,8 +32,10 @@ def init_app():
     app.config.from_object("config.Config")
 
     db.init_app(app)
+    r.init_app(app)
 
     with app.app_context():
+        from . import routes
         from .home, .profile, .products import routes
         from .profile import profile
         from .home import home
@@ -40,11 +43,13 @@ def init_app():
         from app.main import routes
         from . import auth
         from .assets import compile_static_assets, compile_auth_assets
+
         app.register_blueprint(home.routes.home_bp)
         app.register_blueprint(profile.account_bp)
         app.register_blueprint(products.product_bp)
         app.register_blueprint(routes.main_bp)
         app.register_blueprint(auth.auth_bp)
+        app.register_blueprint(admin.admin_bp)
         compile_static_assets(app)
         compile_auth_assets(app)
 
