@@ -1,8 +1,7 @@
 """Initialize app."""
 from flask import Flask
-from flask_login import LoginManager
-from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
 
 
 db = SQLAlchemy()
@@ -30,5 +29,8 @@ def create_app():
         compile_auth_assets(app)
 
         db.create_all()
+
+        if app.config['FLASK_ENV'] == 'development':
+            compile_assets(app)
 
         return app
