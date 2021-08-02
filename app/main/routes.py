@@ -1,12 +1,8 @@
-"""Routes for logged-in flask_session_tutorial."""
+from flask_login import current_user, login_required, logout_user
+from datetime import datetime as dt
 from flask import Blueprint, redirect, render_template, session, url_for, request, make_response
 from flask import current_app as app
-from flask_login import current_user, login_required, logout_user
-from .assets import compile_auth_assets
-from datetime import datetime as dt
-from .models import db, User
 
-# Blueprint Configuration
 main_bp = Blueprint(
     "main_bp", __name__,
     template_folder="templates",
@@ -16,7 +12,7 @@ main_bp = Blueprint(
 
 @main_bp.route("/", methods=["GET"])
 @login_required
-def dashboard():
+def dashboard(current_user=None):
     """Logged in Dashboard screen."""
     session["redis_test"] = "This is a session variable."
     return render_template(
@@ -47,8 +43,9 @@ def logout():
     logout_user()
     return redirect(url_for("auth_bp.login"))
 
+
 @app.route('/', methods=['GET'])
-def user_records():
+def user_records(db=None):
     username = request.args.get('user')
     email = request.args.get('email')
     if username and email:
@@ -66,8 +63,13 @@ def user_records():
 @app.route('/', methods=['GET'])
 def create_user():
 
+
+class User:
+    pass
+
+
 @app.route('/', methods=['GET'])
-def user_records():
+def user_records(db=None):
     username = request.args.get('user')
     email = request.args.get('email')
     if username and email:

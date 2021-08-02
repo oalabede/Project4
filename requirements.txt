@@ -1,11 +1,11 @@
 Flask~=2.0.1
 flask-mysql
 simplejson~=3.17.3
-redis
-flask-sqlalchemy
-python-dotenv
 flask-wtf
 wtforms
+email_validator
+python-dotenv
+flask-sqlalchemy
 PyMySQL~=1.0.2
 Werkzeug~=2.0.1
 pip~=21.2.1

@@ -4,8 +4,30 @@ from flask import Flask, request, Response, redirect
 from flask import render_template
 from flaskext.mysql import MySQL
 from pymysql.cursors import DictCursor
+from flask_assets import Environment
 
-app = Flask(__name__)
+app = Flask(__name__, instance_relative_config=False)
+
+assets = Environment(app)
+
+
+style_bundle = Bundle(
+    'src/less/*.less',
+    filters='less,cssmin',
+    output='dist/css/style.min.css',
+    extra={'rel': 'stylesheets/css'}
+)
+js_bundle = Bundle(
+    'src/js/main.js',
+    filters='jsmin',
+    output='dist/js/main.min.js'
+)
+
+assets.register('main_styles', style_bundle)
+assets.register('main_js', js_bundle)
+style_bundle.build()
+js_bundle.build()
+
 mysql = MySQL(cursorclass=DictCursor)
 
 app.config['MYSQL_DATABASE_HOST'] = 'db'
