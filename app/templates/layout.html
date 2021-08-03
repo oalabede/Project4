@@ -1,6 +1,13 @@
 <!doctype html>
 <html lang="en">
-<head>
+
+    <head>
+        <title>Deniro Movie Site</title>
+        <meta charset="utf-8">
+        <meta name="description" content="Deniro Movie scores">
+        <link rel="shortcut icon" href="/favicon.ico">
+        <link href="/static/css/home.css" rel="stylesheet" />
+
 
     <!-- Required meta tags -->
 
@@ -16,9 +23,17 @@
     {% else %}
     <title>Welcome to My Site!</title>
     {% endif %}
+     {% block css %}{% endblock %}
 <head>
- <body>
-<!-- As a heading -->
+
+<body>
+    {% include 'navigation.html' %}
+    <div class="container">
+        <h1>Deniro Movie Site</h1>
+        <p>Deniro Movie score</p>
+    </div>
+
+    <!-- As a heading -->
 
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light mb-1">
@@ -61,4 +76,5 @@
             src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 </div>
 </body>
+
 </html>

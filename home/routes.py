@@ -21,3 +21,18 @@ def home():
         template='home-template',
         products=products
     )
+
+
+@app.route('/')
+def home():
+    """Landing page."""
+    nav = [
+        {'name': 'Home', 'url': 'https://deniromovies.com/1'},
+        {'name': 'About', 'url': 'https://deniromoviescore.com/2'},
+        {'name': 'Pics', 'url': 'https://alldeniromoveis.com/3'}
+    ]
+    return render_template(
+        'home.html',
+        title="Deniro Movie Site",
+        description="Deniro Movie score."
+    )
