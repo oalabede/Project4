@@ -154,6 +154,11 @@ def api_delete(movie_id) -> str:
     resp = Response(status=210, mimetype='application/json')
     return resp
 
+@app.route("/api/v1/users", methods=['GET', 'POST', 'PUT'])
+def users():
+    resp = Response(status=201, mimetype='application/json')
+    return resp
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)

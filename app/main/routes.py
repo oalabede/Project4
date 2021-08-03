@@ -1,7 +1,35 @@
 from flask_login import current_user, login_required, logout_user
 from datetime import datetime as dt
-from flask import Blueprint, redirect, render_template, session, url_for, request, make_response
+from flask import Blueprint, redirect, render_template, session, url_for, request, make_response, Flask, g
 from flask import current_app as app
+
+
+app = Flask(__name__, template_folder="templates")
+
+
+@app.route("/")
+def home():
+    return render_template("index.html", title='Flask-Login Tutorial.', body="You are now logged in!")
+
+app = Flask(__name__)
+@app.route("/api/v2/test_response")
+def users():
+    headers = {"Content-Type": "application/json"}
+    return make_response(
+        'Test worked!',
+        200,
+        headers=headers
+    )
+
+@app.route("/login")
+def login():
+    return redirect('/dashboard.html')
+
+
+@app.route("/login")
+def login():
+    return redirect(url_for('dashboard'))
+
 
 main_bp = Blueprint(
     "main_bp", __name__,
@@ -97,3 +125,22 @@ def user_records(db=None):
         title="Show Users"
     )
 
+def get_test_value():
+    if 'test_value' not in g:
+        g.test_value = 'This is a value'
+    return g.test_value
+
+@app.errorhandler(404)
+def not_found():
+    """Page not found."""
+    return make_response(render_template("404.html"), 404)
+
+@app.errorhandler(400)
+def bad_request():
+    """Bad request."""
+    return make_response(render_template("400.html"), 400)
+
+@app.errorhandler(500)
+def server_error():
+    """Internal server error."""
+    return make_response(render_template("500.html"), 500)
