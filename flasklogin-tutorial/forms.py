@@ -1,7 +1,8 @@
 """Sign-up & log-in forms."""
-from flask_wtf import FlaskForm
-from wtforms import PasswordField, StringField, SubmitField
-from wtforms.validators import (DataRequired, Email, EqualTo, Length, Optional)
+from flask_wtf import FlaskForm, RecaptchaField
+from wtforms import (PasswordField, StringField, SubmitField, Textfield, DateField, SelectField)
+from wtforms.validators import (DataRequired, Email, EqualTo, Length, Optional, URL)
+
 
 
 class SignupForm(FlaskForm):
@@ -16,6 +17,8 @@ class SignupForm(FlaskForm):
             DataRequired(),
         ],
     )
+
+
     password = PasswordField(
         "Password",
         validators=[
@@ -42,3 +45,33 @@ class LoginForm(FlaskForm):
     )
     password = PasswordField("Password", validators=[DataRequired()])
     submit = SubmitField("Log In")
+
+
+class ContactForm(FlaskForm):
+    """Contact form."""
+    name = StringField(
+        'Name',
+        [DataRequired()]
+    )
+    email = StringField(
+        'Email',
+        [
+            Email(message=('Not a valid email address.')),
+            DataRequired()
+        ]
+    )
+    body = Textfield(
+        'Message',
+        [
+            DataRequired(),
+            Length(min=4,
+            message=('Your message is too short.'))
+        ]
+    )
+    recaptcha = RecaptchaField()
+    submit = SubmitField('Submit')
+
+field = FieldType(
+    'LABEL',
+    validators=[ExampleValidator(message="ERROR MESSAGE")],
+)
