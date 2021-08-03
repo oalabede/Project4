@@ -2,6 +2,7 @@ from flask_login import current_user, login_required, logout_user
 from datetime import datetime as dt
 from flask import Blueprint, redirect, render_template, session, url_for, request, make_response, Flask, g
 from flask import current_app as app
+from .forms import ContactForm
 
 
 app = Flask(__name__, template_folder="templates")
@@ -30,6 +31,22 @@ def login():
 def login():
     return redirect(url_for('dashboard'))
 
+
+app = Flask(__name__, instance_relative_config=False)
+app.config.from_object('config.Config')
+
+
+@app.route("/contact", methods=["GET", "POST"])
+def contact():
+    """Standard 'contact' form."""
+    form = ContactForm()
+    if form.validate_on_submit():
+        return redirect(url_for("success"))
+    return render_template(
+        "contact.jinja2",
+        form=form,
+        template="form-template"
+    )
 
 main_bp = Blueprint(
     "main_bp", __name__,

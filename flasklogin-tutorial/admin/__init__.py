@@ -1,9 +1,7 @@
 """Initialize app."""
-import profile
 
 from flask import Flask
 from flask_assets import Environment
-import home.routes
 from .assets import compile_assets
 from flask_sqlalchemy import SQLAlchemy
 from flask_redis import FlaskRedis
@@ -40,7 +38,7 @@ def init_app():
         from .profile import profile
         from .home import home
         from .products import products
-        from app.main import routes
+        from . import routes
         from . import auth
         from .assets import compile_static_assets, compile_auth_assets
 
