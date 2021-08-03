@@ -6,6 +6,12 @@ from flaskext.mysql import MySQL
 from pymysql.cursors import DictCursor
 from flask_assets import Environment
 
+
+app = Flask(__name__)
+app.config.from_object('config.Config')
+app.config.from_object('config.ProdConfig')
+app.config.from_object('config.DevConfig')
+
 app = Flask(__name__, instance_relative_config=False)
 
 assets = Environment(app)
@@ -36,6 +42,19 @@ app.config['MYSQL_DATABASE_PASSWORD'] = 'root'
 app.config['MYSQL_DATABASE_PORT'] = 3306
 app.config['MYSQL_DATABASE_DB'] = 'deniroData'
 mysql.init_app(app)
+
+app = Flask(__name__)
+app.config.from_pyfile('config.py')
+
+app.config['TESTING'] = True
+app.config['DEBUG'] = True
+app.config['FLASK_ENV'] = 'development'
+app.config['SECRET_KEY'] = 'GDtfDCFYjD'
+app.config['DEBUG'] = False
+
+@app.route('/')
+def home():
+    return render_template('/index.html')
 
 
 @app.route('/', methods=['GET'])
